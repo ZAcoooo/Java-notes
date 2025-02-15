@@ -30,7 +30,7 @@
 
 ### Java中的集合:
 
-![Java集合汇总]()
+![Java集合汇总](https://raw.githubusercontent.com/ZAcoooo/Java-notes/refs/heads/main/images/Java-Collections-Summary.webp)
 
 #### List:
 
