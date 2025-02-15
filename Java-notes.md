@@ -30,7 +30,7 @@
 
 ### Java中的集合:
 
-![Java集合汇总](Java集合汇总.webp)
+![Java集合汇总]()
 
 #### List:
 
