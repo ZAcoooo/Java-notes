@@ -266,3 +266,378 @@
 
    list.stream().forEach(element -> System.out.println(element));
    ```
+ 
+---
+
+### 2.6 List：
+
+![List图](images/list.webp)
+
+#### 常见的 List 集合（非线程安全）：
+
+- **ArrayList**：基于动态数组实现，它允许快速的随机访问，即通过索引访问元素的时间复杂度为 O(1)。在添加和删除元素时，如果操作位置不是列表末尾，可能需要移动大量元素，性能相对较低。适用于需要频繁随机访问元素，而对插入和删除操作性能要求不高的场景，如数据的查询和展示等。
+
+- **LinkedList**：基于双向链表实现，在插入和删除元素时，只需修改链表的指针，不需要移动大量元素，时间复杂度为 O(1)。但随机访问元素时，需要从链表头或链表尾开始遍历，时间复杂度为 O(n)。适用于需要频繁进行插入和删除操作的场景，如队列、栈等数据结构的实现，以及需要在列表中间频繁插入和删除元素的情况。
+
+#### 常见的 List 集合（线程安全）：
+
+- **Vector**：与 `ArrayList` 类似，也是基于数组实现。`Vector` 中的方法大多是同步的，这使得它在多线程环境下可以保证数据的一致性，但在单线程环境下，由于同步带来的开销，性能会略低于 `ArrayList`。
+
+- **CopyOnWriteArrayList**：在对列表进行修改（如添加、删除元素）时，会创建一个新的底层数组，将修改操作应用到新数组上，而读操作仍然在原数组上进行，这样可以保证读操作不会被写操作阻塞，实现了读写分离，提高了并发性能。适用于读操作远远多于写操作的并发场景，如事件监听列表等，在这种场景下可以避免大量的锁竞争，提高系统的性能和响应速度。
+
+### 2.7 Java里面List的几种实现：
+
+在 Java 中，`List` 接口是最常用的集合类型之一，用于存储元素的有序集合。以下是 Java 中常见的 `List` 实现及其特点：
+
+![Lists图](images/lists.webp)
+
+- **Vector**：
+  - 是 Java 早期提供的线程安全的动态数组实现。
+  - 如果不需要线程安全，通常不建议使用 `Vector`，因为同步机制会带来额外的性能开销。
+  - `Vector` 内部使用对象数组来保存数据，可以自动扩展容量。当数组已满时，会创建新的数组，并拷贝原有的数据。
+  - 适合需要线程安全的场景，但在单线程环境下性能较差。
+
+- **ArrayList**：
+  - 是应用最广泛的动态数组实现，不是线程安全的，因此性能较好。
+  - 和 `Vector` 类似，`ArrayList` 也可以根据需要扩展容量，但其扩容机制与 `Vector` 不同：`ArrayList` 每次扩容会增加 50% 的容量，而 `Vector` 扩容时会加倍容量。
+  - 适合频繁访问元素的场景，但在插入和删除操作时，特别是中间插入和删除，会有较差的性能。
+
+- **LinkedList**：
+  - 是 Java 提供的双向链表实现，不需要像 `Vector` 和 `ArrayList` 那样调整容量。
+  - 它本身不是线程安全的。
+  - `LinkedList` 在节点的插入和删除操作上非常高效，但在随机访问时性能较差，因为它需要遍历链表来查找元素。
+  - 适合需要频繁插入和删除元素的场景，但不适合频繁随机访问元素的场景。
+
+#### 选择场景：
+
+- **Vector 和 ArrayList**：作为动态数组，它们内部的元素以顺序存储的数组形式进行存储，因此非常适合随机访问的场合。然而，除了在尾部插入和删除元素外，其他位置的插入和删除性能较差，因为需要移动大量元素（特别是中间插入时）。
+  
+- **LinkedList**：虽然 `LinkedList` 的随机访问性能较差，但它在插入和删除操作上非常高效，尤其是在链表的头部和中间位置。因此，适用于需要频繁进行节点插入、删除操作的场景，但不适合频繁进行随机访问的场合。
+
+### 2.8 list 可以一边遍历一边修改元素吗：
+
+在 Java 中，`List` 在遍历过程中是否可以修改元素取决于遍历方式和具体的 `List` 实现类，以下是几种常见情况：
+
+- **使用普通 for 循环遍历**：
+  - 可以在遍历过程中修改元素，只要修改的索引不超出 `List` 的范围即可。
+  ```java
+  import java.util.ArrayList;
+  import java.util.List;
+
+  public class ListTraversalAndModification {
+      public static void main(String[] args) {
+          List<Integer> list = new ArrayList<>();
+          list.add(1);
+          list.add(2);
+          list.add(3);
+
+          // 使用普通for循环遍历并修改元素
+          for (int i = 0; i < list.size(); i++) {
+              list.set(i, list.get(i) * 2);
+          }
+
+          System.out.println(list);
+      }
+  }
+  ```
+
+
+- **使用 foreach 循环遍历**：
+  - 一般不建议在 `foreach` 循环中直接修改正在遍历的 `List` 元素，因为这可能会导致意外的结果或 `ConcurrentModificationException` 异常。
+  - `foreach` 循环底层是基于迭代器实现的，在遍历过程中修改集合结构（如添加、删除元素），会导致迭代器的预期结构与实际结构不一致，从而引发异常。
+  ```java
+  import java.util.ArrayList;
+  import java.util.List;
+
+  public class ListTraversalAndModification {
+      public static void main(String[] args) {
+          List<Integer> list = new ArrayList<>();
+          list.add(1);
+          list.add(2);
+          list.add(3);
+
+          // 使用foreach循环遍历并尝试修改元素，会抛出ConcurrentModificationException异常
+          for (Integer num : list) {
+              list.set(list.indexOf(num), num * 2);
+          }
+
+          System.out.println(list);
+      }
+  }
+  ```
+
+
+- **使用迭代器遍历**：
+  - 可以使用迭代器的 `remove` 方法来删除元素，但如果要修改元素的值，需要通过迭代器的 `set` 方法来进行，而不是直接通过 `List` 的 `set` 方法。
+  - 如果直接通过 `List` 的 `set` 方法修改元素，可能会抛出 `ConcurrentModificationException` 异常。
+  ```java
+  import java.util.ArrayList;
+  import java.util.Iterator;
+  import java.util.List;
+
+  public class ListTraversalAndModification {
+      public static void main(String[] args) {
+          List<Integer> list = new ArrayList<>();
+          list.add(1);
+          list.add(2);
+          list.add(3);
+
+          // 使用迭代器遍历并修改元素
+          Iterator<Integer> iterator = list.iterator();
+          while (iterator.hasNext()) {
+              Integer num = iterator.next();
+              if (num == 2) {
+                  // 使用迭代器的set方法修改元素
+                  iterator.set(4);
+              }
+          }
+
+          System.out.println(list);
+      }
+  }
+  ```
+
+
+- **对于线程安全的 List，如 `CopyOnWriteArrayList`**：
+  - 由于其采用了写时复制的机制，在遍历的同时可以进行修改操作，不会抛出 `ConcurrentModificationException` 异常。
+  - 但需要注意，修改操作是在新的副本上进行的，因此可能会读取到旧的数据。
+
+### 2.9 list 如何快速删除某个指定下标的元素：
+
+- **ArrayList**：
+  - `ArrayList` 提供了 `remove(int index)` 方法来删除指定下标的元素。该方法在删除元素后，会将后续元素向前移动，以填补被删除元素的位置。
+  - 如果删除的是列表末尾的元素，时间复杂度为 `O(1)`；如果删除的是列表中间的元素，时间复杂度为 `O(n)`，其中 `n` 为列表中元素的个数，因为需要移动后续的元素。
+  ```java
+  import java.util.ArrayList;
+  import java.util.List;
+
+  public class ArrayListRemoveExample {
+      public static void main(String[] args) {
+          List<Integer> list = new ArrayList<>();
+          list.add(1);
+          list.add(2);
+          list.add(3);
+
+          // 删除下标为1的元素
+          list.remove(1);
+
+          System.out.println(list);
+      }
+  }
+  ```
+
+
+- **LinkedList**：
+  - `LinkedList` 的 `remove(int index)` 方法也可以用来删除指定下标的元素。它需要先遍历到指定下标位置，然后修改链表的指针来删除元素。时间复杂度为 `O(n)`，其中 `n` 为要删除元素的下标。
+  - 不过，如果已知要删除的元素是链表的头节点或尾节点，可以直接通过修改头指针或尾指针来实现删除，时间复杂度为 `O(1)`。
+  ```java
+  import java.util.LinkedList;
+  import java.util.List;
+
+  public class LinkedListRemoveExample {
+      public static void main(String[] args) {
+          List<Integer> list = new LinkedList<>();
+          list.add(1);
+          list.add(2);
+          list.add(3);
+
+          // 删除下标为1的元素
+          list.remove(1);
+
+          System.out.println(list);
+      }
+  }
+  ```
+
+
+- **CopyOnWriteArrayList**：
+  - `CopyOnWriteArrayList` 的 `remove` 方法同样可以删除指定下标的元素。由于 `CopyOnWriteArrayList` 在写操作时会创建一个新的数组，所以删除操作的时间复杂度取决于数组的复制速度，通常为 `O(n)`，其中 `n` 为数组的长度。
+  - 但在并发环境下，它的删除操作不会影响读操作，具有较好的并发性能。
+  ```java
+  import java.util.concurrent.CopyOnWriteArrayList;
+
+  public class CopyOnWriteArrayListRemoveExample {
+      public static void main(String[] args) {
+          CopyOnWriteArrayList<Integer> list = new CopyOnWriteArrayList<>();
+          list.add(1);
+          list.add(2);
+          list.add(3);
+
+          // 删除下标为1的元素
+          list.remove(1);
+
+          System.out.println(list);
+      }
+  }
+  ```
+
+### 2.10 ArrayList 和 LinkedList 的区别：
+
+- **底层数据结构**：
+  - `ArrayList` 使用数组实现，通过索引进行快速访问元素。
+  - `LinkedList` 使用链表实现，通过节点之间的指针进行元素的访问和操作。
+
+- **插入和删除操作的效率**：
+  - `ArrayList` 在尾部的插入和删除操作效率较高，但在中间或开头的插入和删除操作效率较低，因为需要移动元素。
+  - `LinkedList` 在任意位置的插入和删除操作效率较高，因为只需要调整节点之间的指针，但 `LinkedList` 不支持随机访问，所以除了头结点外，插入和删除的时间复杂度是 `O(n)`，效率较低。因此，`LinkedList` 基本上不常用。
+
+- **随机访问的效率**：
+  - `ArrayList` 支持通过索引进行快速随机访问，时间复杂度为 `O(1)`。
+  - `LinkedList` 需要从头或尾开始遍历链表，时间复杂度为 `O(n)`。
+
+- **空间占用**：
+  - `ArrayList` 在创建时需要分配一段连续的内存空间，因此会占用较大的空间。
+  - `LinkedList` 每个节点只需要存储元素和指针，因此相对较小。
+
+- **使用场景**：
+  - `ArrayList` 适用于频繁随机访问和尾部的插入删除操作。
+  - `LinkedList` 适用于频繁的中间插入删除操作和不需要随机访问的场景。
+
+- **线程安全**：
+  - `ArrayList` 和 `LinkedList` 都不是线程安全的。
+  - `Vector` 是线程安全的。
+
+
+### 2.11 ArrayList 线程安全吗？把 ArrayList 变成线程安全有哪些方法？
+
+`ArrayList` 不是线程安全的，以下是将 `ArrayList` 变成线程安全的几种方法：
+
+- **使用 `Collections` 类的 `synchronizedList` 方法将 `ArrayList` 包装成线程安全的 List**：
+  - `Collections.synchronizedList(list)` 可以将一个普通的 `ArrayList` 包装成线程安全的 `List`。但是需要注意，使用该方法时，仍然需要手动同步外部操作。
+  ```java
+  List<String> synchronizedList = Collections.synchronizedList(arrayList);
+  ```
+
+
+- **使用 `CopyOnWriteArrayList` 类代替 `ArrayList`**：
+  - `CopyOnWriteArrayList` 是一个线程安全的 `List` 实现。它通过写时复制的方式保证线程安全，即在写操作时，复制整个数组来进行修改，这样读取操作不会被阻塞。
+  ```java
+  CopyOnWriteArrayList<String> copyOnWriteArrayList = new CopyOnWriteArrayList<>(arrayList);
+  ```
+
+- **使用 `Vector` 类代替 `ArrayList`**：
+  - `Vector` 是一个线程安全的 `List` 实现，它通过在方法上加 `synchronized` 锁来确保线程安全。然而，由于同步带来的性能开销，`Vector` 的性能通常不如 `ArrayList`。
+  ```java
+  Vector<String> vector = new Vector<>(arrayList);
+  ```
+
+### 2.12 为什么 ArrayList 不是线程安全的，具体来说是哪里不安全？
+
+在高并发添加数据时，`ArrayList` 会暴露出三个问题：
+
+- 部分值为 `null`（我们并没有 `add null` 进去）
+- 索引越界异常
+- `size` 与我们 `add` 的数量不符
+
+`ArrayList` 中的 `add` 方法通过以下步骤工作：
+
+```java
+public boolean add(E e) {
+        ensureCapacityInternal(size + 1);  // Increments modCount!!
+        elementData[size++] = e;
+        return true;
+}
+```
+
+`ensureCapacityInternal()` 方法的作用是判断当前新元素加入时，`ArrayList` 的底层 `elementData` 数组的容量是否足够。如果 `size + 1` 的需求大于当前数组的容量，它就会触发数组的扩容。
+
+
+1. 判断数组需不需要扩容，如果需要的话，调用`grow`方法进行扩容
+2. 将数组的`size`位置设置值（因为数组的下标是从0开始的
+3. 将当前集合的大小加1
+
+下面我们来分析三种情况是如何发生的：
+
+1. **部分值为 `null`**：
+   - 线程1发现当前 `size` 是 9，而数组容量是 10，所以不需要扩容。
+   - 这时 CPU 让出执行权，线程2进来，发现 `size` 仍然是 9，数组容量是 10，所以也不需要扩容。
+   - 线程1继续执行，将数组下标索引为 9 的位置设置值，但还没有执行 `size++`。
+   - 线程2执行时，再次将数组下标索引为 9 的位置设置了一遍，这样线程1和线程2都执行了 `size++`，导致 `size` 被增加了两次，但数组的最后一个位置（索引 10）依然为 `null`。
+
+2. **索引越界异常**：
+   - 线程1发现当前 `size` 是 9，数组容量是 10，所以不需要扩容。
+   - CPU 让出执行权，线程2进来，发现数组容量为 10，因此也没有扩容。
+   - 线程1完成 `set` 操作后，执行 `size++`，此时 `size` 变成 10。
+   - 线程2执行时，由于 `size` 已经是 10，而数组的最大索引为 9，线程2试图将元素添加到下标索引为 10 的位置时，就会发生索引越界异常。
+  
+3. **`size` 与我们 `add` 的数量不符**：
+   - 由于 `size++` 不是原子操作，它分为三个步骤：获取 `size` 的值、将 `size` 加1、将新的 `size` 值覆盖原值。
+   - 线程1和线程2可能会同时读取到相同的 `size` 值并分别进行自增，最终导致 `size` 的更新不准确，造成 `size` 的值与实际添加的元素数量不符。
+
+### 2.13 ArrayList 和 LinkedList 的应用场景？
+
+- **ArrayList**：适用于需要频繁访问集合元素的场景。ArrayList基于数组实现，可以通过索引快速访问元素。因此，在按索引查找、遍历和随机访问元素的操作上具有较高的性能。推荐使用ArrayList的场景包括：
+  - 频繁访问集合中的元素
+  - 集合大小不经常改变
+
+- **LinkedList**：适用于频繁进行插入和删除操作的场景。LinkedList基于链表实现，插入和删除元素的操作只需要调整节点的指针，因此在这些操作上具有较高的性能。推荐使用LinkedList的场景包括：
+  - 频繁插入和删除操作
+  - 集合大小经常改变
+
+### 2.14 ArrayList的扩容机制
+
+ArrayList的扩容机制在元素个数达到数组容量上限时自动触发。扩容过程包括以下步骤：
+1. **计算新容量**：通常，新容量为原容量的1.5倍（JDK 10之后扩容策略有所调整），然后检查是否超过最大容量限制。
+2. **创建新数组**：根据新的容量创建一个更大的数组。
+3. **复制元素**：将原数组中的元素逐个复制到新数组中。
+4. **更新引用**：将ArrayList内部指向原数组的引用更新为新数组。
+5. **完成扩容**：扩容后，新的元素可以继续添加。
+
+ArrayList的扩容操作涉及到数组的复制和内存的重新分配，所以在频繁添加大量元素时，扩容操作可能会影响性能。为了减少扩容带来的性能损耗，可以在初始化ArrayList时预分配足够大的容量，避免频繁触发扩容操作。
+
+扩容因子1.5倍是因为它能平衡内存使用和性能，减少计算和运算次数。
+```java
+// 新容量计算
+int newCapacity = oldCapacity + (oldCapacity >> 1);
+```
+
+### 2.15 线程安全的 List， CopyOnWriteArrayList是如何实现线程安全的
+
+**CopyOnWriteArrayList**底层通过数组保存数据，并使用`volatile`关键字修饰数组，确保线程对数组对象进行修改时，其他线程能及时看到修改后的数据。
+```java
+private transient volatile Object[] array;
+```
+
+在写入操作时，加了一把互斥锁`ReentrantLock`以保证线程安全。
+```java
+public boolean add(E e) {
+    //获取锁
+    final ReentrantLock lock = this.lock;
+    //加锁
+    lock.lock();
+    try {
+        //获取到当前List集合保存数据的数组
+        Object[] elements = getArray();
+        //获取该数组的长度（这是一个伏笔，同时len也是新数组的最后一个元素的索引值）
+        int len = elements.length;
+        //将当前数组拷贝一份的同时，让其长度加1
+        Object[] newElements = Arrays.copyOf(elements, len + 1);
+        //将加入的元素放在新数组最后一位，len不是旧数组长度吗，为什么现在用它当成新数组的最后一个元素的下标？建议自行画图推演，就很容易理解。
+        newElements[len] = e;
+        //替换引用，将数组的引用指向给新数组的地址
+        setArray(newElements);
+        return true;
+    } finally {
+        //释放锁
+        lock.unlock();
+    }
+}
+```
+写入新元素时，CopyOnWriteArrayList 会执行以下步骤：
+
+1. **复制原数组**：首先会将原数组拷贝一份，并将新数组的长度增加1，得到一个新的数组。
+2. **添加新元素**：将新加入的元素放到新数组的最后一个位置。
+3. **替换数组引用**：然后将新数组的引用替换掉原数组的引用，完成数据更新。
+
+在这个过程中：
+- **读取操作**：在替换数组引用之前，读取的是原数组的数据，这些数据是有效的。
+- **数据一致性**：替换数组引用后，读取的是新数组的数据，保证数据的一致性。
+- **效率**：由于只有写操作需要加锁，读操作不加锁，所以相比于传统的读写都加锁的方式，这种机制能够提高性能和并发效率。
+
+
+现在我们来看读操作，读是没有加锁的，所以读是一直都能读
+```java
+public E get(int index) {
+    return get(getArray(), index);
+}
+```
