@@ -662,3 +662,279 @@ public E get(int index) {
 ---
 
 ## 2.3 Map：
+
+![map](images/map.webp)
+
+#### 常见的 Map 集合（非线程安全）：
+
+- **HashMap**：
+  - 基于哈希表实现，根据键的哈希值来存储和获取键值对。
+  - JDK 1.8 中使用数组 + 链表 + 红黑树实现。
+  - 非线程安全，在多线程环境下，多个线程同时操作可能导致数据不一致或死循环等问题。例如，在扩容时，多个线程同时修改哈希表的结构可能会破坏数据完整性。
+
+- **LinkedHashMap**：
+  - 继承自 HashMap，使用双向链表维护键值对的插入顺序或访问顺序。
+  - 由于继承自 HashMap，它在多线程并发访问时，仍然会出现与 HashMap 类似的线程安全问题。
+
+- **TreeMap**：
+  - 基于红黑树实现，可以对键进行排序，默认按照自然顺序排序，也可以通过指定的比较器进行排序。
+  - 非线程安全，在多线程环境下，多个线程同时进行插入、删除等操作可能会破坏红黑树结构，导致数据不一致或程序异常。
+
+#### 常见的 Map 集合（线程安全）：
+
+- **Hashtable**：
+  - 早期 Java 提供的线程安全的 Map 实现，使用 synchronized 关键字保证线程安全。
+  - 通过在每个可能修改 Hashtable 状态的方法上加 synchronized，使得同一时刻只能有一个线程访问这些方法，从而保证线程安全。
+
+- **ConcurrentHashMap**：
+  - 在 JDK 1.8 以前采用分段锁等技术提高并发性能。
+  - 将数据分成多个段（Segment），每个段有自己的锁，进行插入、删除等操作时，只需要获取相应段的锁，而不是整个 Map 的锁，允许多个线程同时访问不同段。
+  - JDK 1.8 以后通过 volatile + CAS 或 synchronized 来保证线程安全。
+
+### 2.3.1 如何对map进行快速遍历？
+
+1. **使用 for-each 循环和 entrySet() 方法**：
+   - 这是一种较为常见和简洁的遍历方式，可以同时获取 Map 中的键和值。
+    ```java
+    import java.util.HashMap;
+    import java.util.Map;
+
+    public class MapTraversalExample {
+        public static void main(String[] args) {
+            Map<String, Integer> map = new HashMap<>();
+            map.put("key1", 1);
+            map.put("key2", 2);
+            map.put("key3", 3);
+
+            // 使用for-each循环和entrySet()遍历Map
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+            }
+        }
+    }
+    ```
+
+
+2. **使用 for-each 循环和 keySet() 方法**：
+   - 如果只需要遍历 Map 中的键，可以使用 keySet() 方法，这种方式相对简单，性能也较好。
+    ```java
+    import java.util.HashMap;
+    import java.util.Map;
+
+    public class MapTraversalExample {
+        public static void main(String[] args) {
+            Map<String, Integer> map = new HashMap<>();
+            map.put("key1", 1);
+            map.put("key2", 2);
+            map.put("key3", 3);
+
+            // 使用for-each循环和keySet()遍历Map的键
+            for (String key : map.keySet()) {
+                System.out.println("Key: " + key + ", Value: " + map.get(key));
+            }
+        }
+    }
+    ```
+
+3. **使用迭代器**：
+   - 通过获取 Map 的 entrySet() 或 keySet() 的迭代器，也可以实现对 Map 的遍历。在需要删除元素等操作时，这种方式比较有用。
+    ```java
+    import java.util.HashMap;
+    import java.util.Iterator;
+    import java.util.Map;
+    import java.util.Map.Entry;
+
+    public class MapTraversalExample {
+        public static void main(String[] args) {
+            Map<String, Integer> map = new HashMap<>();
+            map.put("key1", 1);
+            map.put("key2", 2);
+            map.put("key3", 3);
+
+            // 使用迭代器遍历Map
+            Iterator<Entry<String, Integer>> iterator = map.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Entry<String, Integer> entry = iterator.next();
+                System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+            }
+        }
+    }
+    ```
+
+4. **使用 Lambda 表达式和 forEach() 方法**：
+   - 在 Java 8 及以上版本中，可以使用 Lambda 表达式和 forEach() 方法来遍历 Map，这种方式更加简洁和函数式。
+    ```java
+    import java.util.HashMap;
+    import java.util.Map;
+
+    public class MapTraversalExample {
+        public static void main(String[] args) {
+            Map<String, Integer> map = new HashMap<>();
+            map.put("key1", 1);
+            map.put("key2", 2);
+            map.put("key3", 3);
+
+            // 使用Lambda表达式和forEach()方法遍历Map
+            map.forEach((key, value) -> System.out.println("Key: " + key + ", Value: " + value));
+        }
+    }
+    ```
+
+5. **使用 Stream API**：
+   - Java 8 引入的 Stream API 也可以用于遍历 Map，可以将 Map 转换为流，然后进行各种操作。
+    ```java
+    import java.util.HashMap;
+    import java.util.Map;
+    import java.util.stream.Collectors;
+
+    public class MapTraversalExample {
+        public static void main(String[] args) {
+            Map<String, Integer> map = new HashMap<>();
+            map.put("key1", 1);
+            map.put("key2", 2);
+            map.put("key3", 3);
+
+            // 使用Stream API遍历Map
+            map.entrySet().stream()
+              .forEach(entry -> System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue()));
+
+            // 还可以进行其他操作，如过滤、映射等
+            Map<String, Integer> filteredMap = map.entrySet().stream()
+                                                .filter(entry -> entry.getValue() > 1)
+                                                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+            System.out.println(filteredMap);
+        }
+    }
+    ```
+
+### 2.3.2 HashMap实现原理
+
+在 JDK 1.7 版本之前， HashMap 数据结构是数组和链表，HashMap通过哈希算法将元素的键（Key）映射到数组中的槽位（Bucket）。如果多个键映射到同一个槽位，它们会以链表的形式存储在同一个槽位上，因为链表的查询时间是O(n)，所以冲突很严重，一个索引上的链表非常长，效率就很低了。
+
+![Java7-HashMap](images/Java7-HashMap.webp)
+
+所以在 JDK 1.8 版本的时候做了优化，当一个链表的长度超过8的时候就转换数据结构，不再使用链表存储，而是使用红黑树，查找时使用红黑树，时间复杂度O（log n），可以提高查询性能，但是在数量较少时，即数量小于6时，会将红黑树转换回链表。
+
+![Java8-HashMap](images/Java8-HashMap.webp)
+
+### 2.3.3 哈希冲突解决方法
+
+### 2.3.3 哈希冲突解决方法
+
+1. **链接法**：使用链表或其他数据结构来存储冲突的键值对，将它们链接在同一个哈希桶中。
+
+2. **开放寻址法**：在哈希表中找到另一个可用的位置来存储冲突的键值对，而不是存储在链表中。常见的开放寻址方法包括：
+   - 线性探测
+   - 二次探测
+   - 双重散列
+
+3. **再哈希法（Rehashing）**：当发生冲突时，使用另一个哈希函数再次计算键的哈希值，直到找到一个空槽来存储键值对。
+
+4. **哈希桶扩容**：当哈希冲突过多时，可以动态地扩大哈希桶的数量，重新分配键值对，以减少冲突的概率。
+
+
+### 2.3.4 HashMap是线程安全的吗?
+
+HashMap **不是线程安全**的，在多线程环境下会出现以下问题：
+
+- **JDK 1.7**：HashMap 采用数组 + 链表的数据结构，在多线程环境下，数组扩容时可能会出现 Entry 链表死循环和数据丢失问题。
+  
+- **JDK 1.8**：HashMap 采用数组 + 链表 + 红黑树的数据结构，优化了 1.7 中扩容时的问题，解决了 Entry 链死循环和数据丢失问题。但在多线程环境下，`put` 方法仍然可能导致数据覆盖问题。
+
+如果需要保证线程安全，可以采用以下方式：
+
+- 使用 `Collections.synchronizedMap` 进行同步加锁；
+- 使用 `Hashtable`，它本身是线程安全的；
+- 使用 `ConcurrentHashMap`，它在高并发场景下表现更优。
+
+**ConcurrentHashMap** 在 JDK 1.7 和 1.8 中做了较大改动：
+- **JDK 1.7**：采用分段锁（`Segment + HashEntry`）实现；
+- **JDK 1.8**：抛弃了分段锁，改为使用 `CAS + synchronized + Node`，并引入了红黑树来避免链表过长导致的性能问题。
+
+
+### 2.3.5 HashMap的put过程
+
+![HashMap-put](images/HashMap-put.webp)
+
+HashMap 的 `put()` 方法用于向 HashMap 中添加键值对，当调用 `put()` 方法时，会按照以下详细流程执行（JDK 1.8版本）：
+
+1. **第一步**：根据要添加的键的哈希码计算在数组中的位置（索引）。
+
+2. **第二步**：检查该位置是否为空（即没有键值对存在）。
+   - 如果为空，则直接在该位置创建一个新的 `Entry` 对象来存储键值对。将要添加的键值对作为该 `Entry` 的键和值，并保存在数组的对应位置。此时，将 `modCount` 加 1，以便在进行迭代时发现并发修改。
+
+3. **第三步**：如果该位置已经存在其他键值对，检查该位置的第一个键值对的哈希码和键是否与要添加的键值对相同。
+   - 如果相同，则表示找到了相同的键，直接将新的值替换旧的值，完成更新操作。
+
+4. **第四步**：如果第一个键值对的哈希码和键不相同，则需要遍历链表或红黑树来查找是否有相同的键：
+   - 如果键值对集合是链表结构，从链表的头部开始逐个比较键的哈希码和 `equals()` 方法，直到找到相同的键或达到链表末尾。
+   - 如果找到了相同的键，则使用新的值取代旧的值，即更新键对应的值。
+   - 如果没有找到相同的键，则将新的键值对添加到链表的头部。
+   
+   - 如果键值对集合是红黑树结构，在红黑树中使用哈希码和 `equals()` 方法进行查找。根据键的哈希码，定位到红黑树中的某个节点，然后逐个比较键，直到找到相同的键或达到红黑树末尾。
+   - 如果找到了相同的键，则使用新的值取代旧的值，即更新键对应的值。
+   - 如果没有找到相同的键，则将新的键值对添加到红黑树中。
+
+5. **第五步**：检查链表长度是否达到阈值（默认为 8）：
+   - 如果链表长度超过阈值，且 HashMap 的数组长度大于等于 64，则会将链表转换为红黑树，以提高查询效率。
+
+6. **第六步**：检查负载因子是否超过阈值（默认为 0.75）：
+   - 如果键值对的数量（`size`）与数组的长度的比值大于阈值，则需要进行扩容操作。
+
+7. **第七步**：扩容操作：
+   - 创建一个新的两倍大小的数组。
+   - 将旧数组中的键值对重新计算哈希码并分配到新数组中的位置。
+   - 更新 HashMap 的数组引用和阈值参数。
+
+8. **第八步**：完成添加操作。
+
+此外，HashMap 是非线程安全的，如果在多线程环境下使用，需要采取额外的同步措施或使用线程安全的 `ConcurrentHashMap`。
+
+### 2.4.6 HashMap的put(key, val)和get(key)过程
+
+存储对象时，我们将 K/V 传给 `put` 方法时，它调用 `hashCode` 计算 hash 从而得到 bucket 位置，进一步存储。HashMap 会根据当前 bucket 的占用情况自动调整容量（超过 Load Factor 则 resize 为原来的 2 倍）。
+  
+获取对象时，我们将 K 传给 `get`，它调用 `hashCode` 计算 hash 从而得到 bucket 位置，并进一步调用 `equals()` 方法确定键值对。如果发生碰撞时，HashMap 通过链表将产生碰撞冲突的元素组织起来。在 Java 8 中，如果一个 bucket 中碰撞冲突的元素超过某个限制（默认是 8），则使用红黑树来替换链表，从而提高速度。
+
+### 2.4.7 HashMap 调用 get 方法一定安全吗？
+
+不是，调用 `get` 方法有几点需要注意的地方：
+
+- **空指针异常（NullPointerException）**：如果你尝试用 `null` 作为键调用 `get` 方法，而 HashMap 没有被初始化（即为 `null`），那么会抛出空指针异常。不过，如果 HashMap 已经初始化，使用 `null` 作为键是允许的，因为 HashMap 支持 `null` 键。
+- **线程安全**：HashMap 本身不是线程安全的。如果在多线程环境中，没有适当的同步措施，同时对 HashMap 进行读写操作可能会导致不可预测的行为。例如，在一个线程中调用 `get` 方法读取数据，而另一个线程同时修改了结构（如增加或删除元素），可能会导致读取操作得到错误的结果或抛出 `ConcurrentModificationException`。如果需要在多线程环境中使用类似 HashMap 的数据结构，可以考虑使用 `ConcurrentHashMap`。
+
+### 2.4.8 HashMap 一般用什么做 Key？为啥 String 适合做 Key 呢？
+
+用 `String` 做 Key，因为 `String` 对象是不可变的，一旦创建就不能被修改，这确保了 Key 的稳定性。如果 Key 是可变的，可能会导致 `hashCode` 和 `equals` 方法的不一致，进而影响 HashMap 的正确性。
+
+### 2.4.9 为什么 HashMap 要用红黑树而不是平衡二叉树？
+
+平衡二叉树追求的是一种 "完全平衡" 状态：任何节点的左右子树的高度差不会超过 1，优势是树的节点是很平均分配的。这个要求实在是太严了，导致每次进行插入/删除节点的时候，几乎都会破坏平衡树的第二个规则，进而我们都需要通过左旋和右旋来进行调整，使之再次成为一颗符合要求的平衡树。
+
+红黑树不追求这种完全平衡状态，而是追求一种 "弱平衡" 状态：整个树最长路径不会超过最短路径的 2 倍。优势是虽然牺牲了一部分查找的性能效率，但是能够换取一部分维持树平衡状态的成本。与平衡树不同的是，红黑树在插入、删除等操作中，不会像平衡树那样，频繁地破坏红黑树的规则，所以不需要频繁地调整，这也是我们大多数情况下使用红黑树的原因。
+
+### 2.4.10 HashMap key 可以为 null 吗？
+
+可以为 `null`。
+
+HashMap 中使用 `hash()` 方法来计算 key 的哈希值，当 key 为空时，直接将 key 的哈希值设为 0，不走 `key.hashCode()` 方法；
+
+HashMap 虽然支持 `key` 和 `value` 为 `null`，但是 `null` 作为 `key` 只能有一个，`null` 作为 `value` 可以有多个；
+因为 HashMap 中，如果 `key` 值一样，那么会覆盖相同 `key` 值的 `value` 为最新，所以 `key` 为 `null` 只能有一个。
+
+### 2.4.11 重写 HashMap 的 `equals` 和 `hashCode` 方法需要注意什么？
+
+HashMap 使用 `Key` 对象的 `hashCode()` 和 `equals()` 方法去决定 key-value 对的索引。当我们试着从 HashMap 中获取值时，这些方法也会被用到。如果这些方法没有被正确地实现，在这种情况下，两个不同 `Key` 也许会产生相同的 `hashCode()` 和 `equals()` 输出，HashMap 将会认为它们是相同的，然后覆盖它们，而非把它们存储到不同的地方。
+
+同样的，所有不允许存储重复数据的集合类都使用 `hashCode()` 和 `equals()` 去查找重复，所以正确实现它们非常重要。`equals()` 和 `hashCode()` 的实现应该遵循以下规则：
+
+- 如果 `o1.equals(o2)`，那么 `o1.hashCode() == o2.hashCode()` 总是为 true 的。
+- 如果 `o1.hashCode() == o2.hashCode()`，并不意味着 `o1.equals(o2)` 会为 true。
+
+### 2.4.12 重写 HashMap 的 `equals` 方法不当会出现什么问题？
+
+HashMap 在比较元素时，会先通过 `hashCode` 进行比较，相同的情况下再通过 `equals` 进行比较。
+
+所以 `equals` 相等的两个对象，`hashCode` 一定相等。`hashCode` 相等的两个对象，`equals` 不一定相等（比如散列冲突的情况）。
+
+重写了 `equals` 方法，不重写 `hashCode` 方法时，可能会出现 `equals` 方法返回为 true，而 `hashCode` 方法却返回 false，这样的一个后果会导致在 HashMap 等类中存储多个一模一样的对象，导致出现覆盖存储的数据的问题，这与 HashMap 只能有唯一的 `key` 的规范不符合。
