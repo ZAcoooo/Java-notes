@@ -8,21 +8,21 @@
 |---|---|
 | 当前章节 | `xmind-md/1. Java基础篇.md` |
 | 会话文件 | `sessions/2026-07-02-Java基础篇.md` |
-| 已答题数 | 22 题（含 1 题未作答） |
-| 累计得分 | **61 / 100** |
+| 已答题数 | 23 题（含 1 题未作答） |
+| 累计得分 | **62 / 100** |
 | 状态 | **扩展加练中**（用户希望覆盖更多知识点 + 适当拓展） |
 
 ## 下一题
 
-**追问 BigDecimal：`0.1 + 0.2` 用 double 等于多少？`BigDecimal` 加法怎么写才正确？**
+**装箱和拆箱是什么？`Integer a = 128; Integer b = 128; a == b` 结果是什么？**
 
 ## 待覆盖扩展知识点（基础篇未问到的）
 
 - [x] 重载 vs 重写
 - [x] 多态（编译看左边、运行看右边）
 - [x] StringBuilder vs StringBuffer
-- [ ] BigDecimal 为什么不用 double ← **下一题**
-- [ ] 装箱拆箱与自动装箱陷阱
+- [ ] BigDecimal 为什么不用 double（构造方式仍错，需牢记 String）
+- [ ] 装箱拆箱与自动装箱陷阱 ← **下一题**
 - [ ] 类加载顺序（父子类 static 块）
 - [ ] try-finally-return 陷阱
 - [ ] JVM / JDK / JRE 关系
@@ -79,3 +79,4 @@
 | 19 | 多态 | 29/40 | 良好 |
 | 20 | StringBuilder vs StringBuffer | 31/40 | 良好 |
 | 21 | BigDecimal | 22/40 | 一般 |
+| 22 | BigDecimal 追问 | 17/40 | 较差 |
