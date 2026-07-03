@@ -8,26 +8,15 @@
 |---|---|
 | 当前章节 | `xmind-md/1. Java基础篇.md` |
 | 会话文件 | `sessions/2026-07-02-Java基础篇.md` |
-| 已答题数 | 29 题（含 1 题未作答） |
-| 累计得分 | **63 / 100** |
+| 已答题数 | 30 题（含 1 题未作答） |
+| 累计得分 | **62 / 100** |
 | 状态 | **全章节覆盖模式**（完整题单见 `chapter1-question-bank.md`） |
 
 ## 下一题
 
-**代理模式和适配器模式有什么区别？各举一个 Java 中的例子。**
+**什么是可达性分析？GC Roots 有哪些？引用计数法为什么 Java 不用？**
 
-## 待覆盖扩展知识点（基础篇未问到的）
-
-- [x] 重载 vs 重写
-- [x] 多态（编译看左边、运行看右边）
-- [x] StringBuilder vs StringBuffer
-- [ ] BigDecimal 为什么不用 double（构造方式仍错，需牢记 String）
-- [x] 装箱拆箱与自动装箱陷阱
-- [x] 类加载顺序（父子类 static 块）
-- [x] try-finally-return 陷阱
-- [x] JVM / JDK / JRE 关系
-- [x] 注解原理
-- [ ] 代理模式 vs 适配器模式 ← **下一题（扩展最后一题）**
+> 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
 ## 已覆盖知识点
 
@@ -86,3 +75,4 @@
 | 26 | try-finally-return | 30/40 | 良好 |
 | 27 | JVM/JDK/JRE | 29/40 | 良好 |
 | 28 | 注解原理 | 30/40 | 良好 |
+| 29 | 代理 vs 适配器 | 28/40 | 良好 |
