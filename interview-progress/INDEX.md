@@ -8,14 +8,14 @@
 |---|---|
 | 当前章节 | `xmind-md/1. Java基础篇.md` |
 | 会话文件 | `sessions/2026-07-02-Java基础篇.md` |
-| 已答题数 | 35 题（含 1 题未作答） |
+| 已答题数 | 36 题（含 1 题未作答） |
 | 累计得分 | **63 / 100** |
 | 累计得分 | **62 / 100** |
 | 状态 | **全章节覆盖模式**（完整题单见 `chapter1-question-bank.md`） |
 
 ## 下一题
 
-**`String s = new String("abc")` 创建了几个对象？字符串常量池是什么？**
+**追问 String：`String s1 = "abc"; String s2 = "abc"; s1 == s2` 结果？`new String("abc")` 到底几个对象？**
 
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
@@ -82,3 +82,4 @@
 | 32 | 分代回收 | 31/40 | 良好 |
 | 33 | 触发 GC | 30/40 | 良好 |
 | 34 | volatile | 33/40 | 良好 |
+| 35 | 字符串常量池 | 18/40 | 较差 |

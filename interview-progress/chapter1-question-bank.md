@@ -124,7 +124,7 @@
 | 🔄 | — | String 不可变 | （Q1 已考，22/40，final≠不可变） |
 | 🔄 | — | final 与不可变类 | （Q2 未答，1/40） |
 | ✅ | — | StringBuilder/Buffer | （Q20 已考，31/40） |
-| ⬜ | S01 | String 常量池 | `String s = new String("abc")` 创建了几个对象？ |
+| 🔄 | S01 | String 常量池 | （Q35/Q36 已考，Q36 掌握） |
 | ⬜ | S02 | intern | `String.intern()` 是干什么的？ |
 
 ---
