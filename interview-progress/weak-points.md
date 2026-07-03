@@ -30,7 +30,7 @@
 ### 9. Stream API
 - **问题**：不知道中间操作 vs 终端操作；stream 理解成「单线程」
 - **要记住**：
-  - 中间操作（filter/map/sorted）返回 Stream，可链式调用，**懒执行**
+  - 懒执行原因：**等终端操作触发才真正执行**，便于优化（短路、合并操作），不是因为「能链式调用」
   - 终端操作（collect/count/forEach）触发真正计算，返回结果
   - `stream()` = 顺序流；`parallelStream()` = 并行流，适合 CPU 密集 + 大数据量
 - **易错**：I/O 密集不适合 parallelStream；没有终端操作中间操作不执行
