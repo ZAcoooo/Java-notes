@@ -53,12 +53,12 @@
   - 静态变量类加载时初始化，只有一份
 
 ### 12. BigDecimal
-- **问题**：知道 double 不准，但说不清为什么；不会正确写法
+- **问题**：Q22 仍用 `new BigDecimal(0.1)` — **这是面试第一陷阱！**
 - **要记住**：
-  - double 用**二进制浮点**（IEEE 754），0.1 等十进制小数无法精确表示
-  - `0.1 + 0.2 = 0.30000000000000004`
-  - 用 `new BigDecimal("0.1")` 或 `BigDecimal.valueOf(0.1)`，**不要用** `new BigDecimal(0.1)`
-  - 运算用 `add()` / `subtract()`，除法指定 `RoundingMode`
+  - `0.1 + 0.2` = `0.30000000000000004`（背完整）
+  - ✅ `new BigDecimal("0.1")` 或 `BigDecimal.valueOf(0.1)`
+  - ❌ `new BigDecimal(0.1)` — 0.1 先变成不精确的 double 再传入
+  - 运算：`bd1.add(bd2)` 返回新对象，不能写 `bd1 + bd2`
 
 ## 🟡 中优先级（知道但不严谨）
 
