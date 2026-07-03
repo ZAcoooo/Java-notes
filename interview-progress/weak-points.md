@@ -19,7 +19,7 @@
   - `final` 类 = **不能被继承**，≠ 对象不可变
   - `final` 字段 = **引用不能改**，引用指向的对象内容仍可能变
   - 不可变类四件套：`final` 类 + `private final` 字段 + 无 setter + 可变字段防御性拷贝
-- **例子**：`final class User { StringBuilder name; }` **仍可变**
+  - **关键陷阱**：`final StringBuilder name` 仍可变，因为 StringBuilder 内容可 append
 - **Q37 进步**：从 Q2 未答 → 20 分，知道引用/内部修改问题 ✅
 
 ## 🟡 中优先级（知道但不严谨）
