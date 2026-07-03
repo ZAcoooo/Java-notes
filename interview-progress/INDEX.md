@@ -8,20 +8,20 @@
 |---|---|
 | 当前章节 | `xmind-md/1. Java基础篇.md` |
 | 会话文件 | `sessions/2026-07-02-Java基础篇.md` |
-| 已答题数 | 20 题（含 1 题未作答） |
+| 已答题数 | 21 题（含 1 题未作答） |
 | 累计得分 | **59 / 100** |
 | 状态 | **扩展加练中**（用户希望覆盖更多知识点 + 适当拓展） |
 
 ## 下一题
 
-**StringBuilder 和 StringBuffer 有什么区别？实际开发中一般用哪个？**
+**为什么金额计算要用 BigDecimal，不能用 double？**
 
 ## 待覆盖扩展知识点（基础篇未问到的）
 
 - [x] 重载 vs 重写
 - [x] 多态（编译看左边、运行看右边）
-- [ ] StringBuilder vs StringBuffer ← **下一题**
-- [ ] BigDecimal 为什么不用 double
+- [x] StringBuilder vs StringBuffer
+- [ ] BigDecimal 为什么不用 double ← **下一题**
 - [ ] 装箱拆箱与自动装箱陷阱
 - [ ] 类加载顺序（父子类 static 块）
 - [ ] try-finally-return 陷阱
@@ -77,3 +77,4 @@
 | 17 | 泛型擦除加练 | 24/40 | 一般 |
 | 18 | 重载 vs 重写 | 29/40 | 良好 |
 | 19 | 多态 | 29/40 | 良好 |
+| 20 | StringBuilder vs StringBuffer | 31/40 | 良好 |
