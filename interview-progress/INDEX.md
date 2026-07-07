@@ -8,13 +8,13 @@
 |---|---|
 | 当前章节 | `xmind-md/1. Java基础篇.md` |
 | 会话文件 | `sessions/2026-07-02-Java基础篇.md` |
-| 已答题数 | 50 题（含 1 题未作答） |
+| 已答题数 | 51 题（含 1 题未作答） |
 | 累计得分 | **64 / 100** |
 | 状态 | **全章节覆盖模式**（完整题单见 `chapter1-question-bank.md`） |
 
 ## 下一题
 
-**`throws` 和 `throw` 有什么区别？**
+**`try-catch-finally` 的执行顺序是什么？**
 
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
@@ -96,3 +96,4 @@
 | 47 | 反射追问 | 29/40 | 良好 |
 | 48 | 抽象类 vs 普通类 | 24/40 | 一般 |
 | 49 | 接口方法类型 | 30/40 | 良好 |
+| 50 | throws vs throw | 29/40 | 良好 |
