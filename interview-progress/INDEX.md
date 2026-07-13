@@ -16,6 +16,8 @@
 
 **`String.intern()` 是干什么的？**（S02）
 
+> 📌 Q58 辅导中（用户表示没见过，待复答计分）
+
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
 ## 已覆盖知识点
