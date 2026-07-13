@@ -191,4 +191,4 @@
 
 ## 下一题
 
-→ **D02：`long` 与 `int` 互转**（见 INDEX.md）
+→ **S02：String.intern()**（见 INDEX.md）
