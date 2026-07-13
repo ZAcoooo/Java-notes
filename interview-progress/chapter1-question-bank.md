@@ -125,7 +125,7 @@
 | 🔄 | — | final 与不可变类 | （Q2 未答，1/40） |
 | ✅ | — | StringBuilder/Buffer | （Q20 已考，31/40） |
 | 🔄 | S01 | String 常量池 | （Q35/Q36 已考，Q36 掌握） |
-| ⬜ | S02 | intern | `String.intern()` 是干什么的？ |
+| ✅ | S02 | intern | （Q58 已考，31/40，辅导后掌握） |
 
 ---
 
