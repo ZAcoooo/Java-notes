@@ -192,4 +192,4 @@
 
 ## 下一题
 
-→ **ST02：Lambda vs 匿名内部类**（见 INDEX.md）
+→ **P01：单例双重检查锁 + volatile**（见 INDEX.md）
