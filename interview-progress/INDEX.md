@@ -8,13 +8,13 @@
 |---|---|
 | 当前章节 | `xmind-md/1. Java基础篇.md` |
 | 会话文件 | `sessions/2026-07-02-Java基础篇.md` |
-| 已答题数 | 72 题（含 1 题未作答） |
-| 累计得分 | **1912 / 2880**（约 66%） |
+| 已答题数 | 73 题（含 1 题未作答） |
+| 累计得分 | **1939 / 2920**（约 66%） |
 | 状态 | **全章节覆盖模式**（完整题单见 `chapter1-question-bank.md`） |
 
 ## 下一题
 
-**NIO 的 Channel、Buffer、Selector 分别是什么？**（IO01）
+**Netty 为什么基于 NIO？Reactor 模型了解吗？**（IO02）
 
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
@@ -119,3 +119,4 @@
 | 70 | 单例 DCL + volatile | 34/40 | 良好 |
 | 71 | Comparable vs Comparator | 31/40 | 良好 |
 | 72 | 原生序列化缺点与替代 | 31/40 | 良好 |
+| 73 | NIO 三组件 | 27/40 | 一般 |
