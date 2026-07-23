@@ -8,13 +8,13 @@
 |---|---|
 | 当前章节 | `xmind-md/1. Java基础篇.md` |
 | 会话文件 | `sessions/2026-07-02-Java基础篇.md` |
-| 已答题数 | 65 题（含 1 题未作答） |
-| 累计得分 | **1709 / 2600**（约 66%） |
+| 已答题数 | 66 题（含 1 题未作答） |
+| 累计得分 | **1738 / 2640**（约 66%） |
 | 状态 | **全章节覆盖模式**（完整题单见 `chapter1-question-bank.md`） |
 
 ## 下一题
 
-**Java 有哪些主要特点？面向对象、跨平台、自动 GC 分别怎么理解？**（C01）
+**`@Target`、`@Retention` 分别是什么？三个 Retention 级别？**（A01）
 
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
