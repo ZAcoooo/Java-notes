@@ -8,15 +8,13 @@
 |---|---|
 | 当前章节 | `xmind-md/1. Java基础篇.md` |
 | 会话文件 | `sessions/2026-07-02-Java基础篇.md` |
-| 已答题数 | 69 题（含 1 题未作答） |
-| 累计得分 | **1816 / 2760**（约 66%） |
+| 已答题数 | 70 题（含 1 题未作答） |
+| 累计得分 | **1850 / 2800**（约 66%） |
 | 状态 | **全章节覆盖模式**（完整题单见 `chapter1-question-bank.md`） |
 
 ## 下一题
 
-**手写单例模式（双重检查锁），为什么用 volatile？**（P01）
-
-> 📌 Q70 辅导中（用户记得 volatile 可见性，DCL 细节不清，待复答计分）
+**`Comparable` 和 `Comparator` 有什么区别？**（M01）
 
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
@@ -118,3 +116,4 @@
 | 67 | 元注解 Target/Retention | 26/40 | 一般 |
 | 68 | parallelStream | 22/40 | 一般 |
 | 69 | Lambda vs 匿名内部类 | 30/40 | 良好 |
+| 70 | 单例 DCL + volatile | 34/40 | 良好 |
