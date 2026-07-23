@@ -8,15 +8,13 @@
 |---|---|
 | 当前章节 | `xmind-md/1. Java基础篇.md` |
 | 会话文件 | `sessions/2026-07-02-Java基础篇.md` |
-| 已答题数 | 66 题（含 1 题未作答） |
-| 累计得分 | **1738 / 2640**（约 66%） |
+| 已答题数 | 67 题（含 1 题未作答） |
+| 累计得分 | **1764 / 2680**（约 66%） |
 | 状态 | **全章节覆盖模式**（完整题单见 `chapter1-question-bank.md`） |
 
 ## 下一题
 
-**`@Target`、`@Retention` 分别是什么？三个 Retention 级别？**（A01）
-
-> 📌 Q67 辅导中（用户表示不知道，待复答计分）
+**`parallelStream()` 适合什么场景？有什么风险？**（ST01）
 
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
