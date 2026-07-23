@@ -16,6 +16,8 @@
 
 **Lambda 表达式是什么？和匿名内部类有什么区别？**（ST02）
 
+> 📌 Q69 辅导中（用户表示不知道，待复答计分）
+
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
 ## 已覆盖知识点
