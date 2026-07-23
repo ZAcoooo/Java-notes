@@ -192,4 +192,4 @@
 
 ## 下一题
 
-→ **ST01：parallelStream 场景与风险**（见 INDEX.md）
+→ **ST02：Lambda vs 匿名内部类**（见 INDEX.md）
