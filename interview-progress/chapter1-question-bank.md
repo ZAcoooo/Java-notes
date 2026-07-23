@@ -192,4 +192,4 @@
 
 ## 下一题
 
-→ **M01：Comparable vs Comparator**（见 INDEX.md）
+→ **SER01：原生序列化缺点与替代**（见 INDEX.md）
