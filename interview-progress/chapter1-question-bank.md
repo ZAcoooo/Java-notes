@@ -192,4 +192,4 @@
 
 ## 下一题
 
-→ **P01：单例双重检查锁 + volatile**（见 INDEX.md）
+→ **M01：Comparable vs Comparator**（见 INDEX.md）
