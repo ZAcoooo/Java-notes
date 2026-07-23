@@ -16,6 +16,8 @@
 
 **实现深拷贝有哪几种方式？各有什么优缺点？**（CPY01）
 
+> 📌 Q65 辅导中（用户提到 clone、序列化，细节不清，待复答计分）
+
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
 ## 已覆盖知识点
