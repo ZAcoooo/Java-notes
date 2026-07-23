@@ -16,6 +16,8 @@
 
 **`@Target`、`@Retention` 分别是什么？三个 Retention 级别？**（A01）
 
+> 📌 Q67 辅导中（用户表示不知道，待复答计分）
+
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
 ## 已覆盖知识点
