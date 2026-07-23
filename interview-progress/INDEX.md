@@ -16,6 +16,8 @@
 
 **Java 原生序列化有哪些缺点？生产环境用什么替代？**（SER01）
 
+> 📌 Q72 辅导中（用户少用过，知开销大，待复答计分）
+
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
 ## 已覆盖知识点
