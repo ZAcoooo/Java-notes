@@ -16,6 +16,8 @@
 
 **Netty 为什么基于 NIO？Reactor 模型了解吗？**（IO02）
 
+> 📌 Q74 辅导中（用户不了解；并疑问项目中为何没用过 BIO/NIO）
+
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
 ## 已覆盖知识点
