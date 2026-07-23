@@ -16,6 +16,8 @@
 
 **手写单例模式（双重检查锁），为什么用 volatile？**（P01）
 
+> 📌 Q70 辅导中（用户记得 volatile 可见性，DCL 细节不清，待复答计分）
+
 > 完整题单（~73 题）：`interview-progress/chapter1-question-bank.md`
 
 ## 已覆盖知识点
