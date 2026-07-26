@@ -37,11 +37,22 @@
 
 ## 跨设备续接指令
 
-手机或另一台设备上，直接发送：
+新开会话前先 `git pull`，然后发送：
 
 ```text
-/interview @xmind-md/1. Java基础篇.md
-继续面试。先读 @interview-progress/INDEX.md，从「下一题」开始。
+/interview
+继续 Java 基础篇模拟面试。
+
+请先读取：
+- @interview-progress/INDEX.md
+- @interview-progress/weak-points.md
+- @interview-progress/chapter1-question-bank.md
+- @interview-progress/sessions/2026-07-02-Java基础篇.md
+
+从 INDEX「下一题」继续（当前应为 Q75：三种工厂模式 P02）。
+已答约 74 题，扫尾阶段：新题剩 P02/P03/M02，然后做薄弱复考。
+规则：每次一题；答完评分并更新 INDEX / session / question-bank / weak-points，再 git commit && push；
+我说不懂就先辅导不计分；每题附进度。
 ```
 
 ## 得分记录
