@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Hot100 刷题记录</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="/css/app.css?v=20260727a" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg app-navbar">
+    <div class="container-fluid px-4">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#" data-view="dashboard">
+            <span class="brand-icon">H</span>
+            <span>Hot100 Tracker</span>
+        </a>
+        <div class="navbar-nav ms-auto flex-row gap-1">
+            <a class="nav-link nav-pill active" href="#" data-view="dashboard">仪表盘</a>
+            <a class="nav-link nav-pill" href="#" data-view="problems">题目列表</a>
+        </div>
+    </div>
+</nav>
+
+<main class="app-main">
+    <div id="view-dashboard" class="view dashboard-page">
+        <section class="dashboard-hero">
+            <div class="hero-text">
+                <p class="hero-eyebrow">LeetCode Hot 100</p>
+                <h1 class="hero-title">刷题仪表盘</h1>
+                <p class="hero-sub" id="hero-subtitle">记录每一次进步</p>
+            </div>
+            <div class="hero-ring-wrap" id="hero-progress"></div>
+        </section>
+
+        <div class="stats-grid" id="stats-cards"></div>
+
+        <section class="dash-panel review-panel" id="pending-review-section">
+            <div class="panel-head">
+                <div>
+                    <h2 class="panel-title">待复习</h2>
+                    <p class="panel-desc" id="pending-review-desc">优先次数少、其次最久未刷的 3 道题，复习后自动滚动补位</p>
+                </div>
+            </div>
+            <div class="panel-body" id="pending-review-list"></div>
+        </section>
+
+        <section class="dash-panel today-log-panel" id="today-review-section">
+            <div class="panel-head">
+                <div>
+                    <h2 class="panel-title" id="today-review-title">今日复习</h2>
+                    <p class="panel-desc">保存时请选「复习」类型（点「去复习」会自动选好）</p>
+                </div>
+            </div>
+            <div class="panel-body" id="today-review-list"></div>
+        </section>
+
+        <section class="dash-panel heatmap-panel">
+            <div class="panel-body heatmap-body-wrap">
+                <div id="activity-heatmap"></div>
+                <div id="heatmap-day-detail" class="heatmap-day-detail d-none"></div>
+            </div>
+        </section>
+
+        <div class="dashboard-grid-2">
+            <section class="dash-panel">
+                <div class="panel-head">
+                    <h2 class="panel-title">分类进度</h2>
+                    <p class="panel-desc">按专题查看完成情况</p>
+                </div>
+                <div class="panel-body" id="category-progress"></div>
+            </section>
+            <section class="dash-panel import-panel">
+                <div class="panel-head">
+                    <h2 class="panel-title">数据导入</h2>
+                    <p class="panel-desc">从 Excel 迁移历史记录</p>
+                </div>
+                <div class="panel-body">
+                    <div class="import-drop">
+                        <input type="file" id="excel-file" accept=".xlsx" class="form-control">
+                        <button class="btn btn-accent w-100 mt-3" id="btn-import">导入刷题-hot100.xlsx</button>
+                        <div id="import-result" class="import-result"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div id="view-problems" class="view d-none page-wrap">
+        <div class="row g-2 mb-3 align-items-end problem-filters">
+            <div class="col-12 col-md-3">
+                <input type="text" id="filter-keyword" class="form-control" placeholder="搜索题号/标题">
+            </div>
+            <div class="col-6 col-md-2">
+                <select id="filter-category" class="form-select"><option value="">全部分类</option></select>
+            </div>
+            <div class="col-6 col-md-2">
+                <select id="filter-status" class="form-select">
+                    <option value="">全部状态</option>
+                    <option value="NOT_STARTED">未开始</option>
+                    <option value="IN_PROGRESS">进行中</option>
+                    <option value="MASTERED">已掌握</option>
+                    <option value="NEED_REVIEW">需复习</option>
+                </select>
+            </div>
+            <div class="col-6 col-md-2">
+                <button class="btn btn-primary w-100" id="btn-search">筛选</button>
+            </div>
+            <div class="col-6 col-md-3 ms-md-auto">
+                <button class="btn btn-accent w-100" id="btn-add-problem">+ 新增题目</button>
+            </div>
+        </div>
+        <div class="problem-list-panel">
+            <div class="problem-list-head">
+                <span class="problem-list-count" id="problem-list-count"></span>
+            </div>
+            <div class="problem-grid-wrap">
+                <div class="problem-grid-header">
+                    <button type="button" class="sortable-th sort-th-id" data-sort="leetcodeId" title="点击按题号排序">题号<span class="sort-indicator">↑</span></button>
+                    <span class="ph-col">标题</span>
+                    <span class="ph-col">分类</span>
+                    <button type="button" class="sortable-th" data-sort="officialDifficulty" title="点击按官方难度排序">难度<span class="sort-indicator">↕</span></button>
+                    <span class="ph-col">状态</span>
+                    <button type="button" class="sortable-th" data-sort="myDifficulty" title="点击按自评排序">自评<span class="sort-indicator">↕</span></button>
+                    <span class="ph-col">解法</span>
+                    <button type="button" class="sortable-th" data-sort="attemptCount" title="点击按刷题次数排序">次数<span class="sort-indicator">↕</span></button>
+                    <button type="button" class="sortable-th" data-sort="lastAttemptDate" title="点击按最近刷题日期排序">最近刷题<span class="sort-indicator">↕</span></button>
+                    <span class="ph-col">操作</span>
+                </div>
+                <div class="problem-grid-body" id="problem-grid"></div>
+            </div>
+            <div class="problem-cards" id="problem-cards"></div>
+        </div>
+    </div>
+
+    <div id="view-detail" class="view d-none page-wrap detail-page">
+        <button class="btn btn-link ps-0 mb-2" id="btn-back">&larr; 返回列表</button>
+        <div id="detail-content"></div>
+    </div>
+</main>
+
+<!-- 刷题记录 Modal -->
+<div class="modal fade" id="attemptModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title" id="attempt-modal-title">新增刷题记录</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <form id="attempt-form">
+                    <input type="hidden" id="attempt-id">
+                    <input type="hidden" id="attempt-problem-id">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <label class="form-label">日期</label>
+                            <input type="date" class="form-control" id="attempt-date" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">类型</label>
+                            <select class="form-select" id="attempt-type">
+                                <option value="FIRST">第一次（绿色）</option>
+                                <option value="REVIEW">复习（蓝色）</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">结果</label>
+                            <select class="form-select" id="attempt-result">
+                                <option value="AC">AC</option>
+                                <option value="WA">WA</option>
+                                <option value="TLE">TLE</option>
+                                <option value="PARTIAL">部分完成</option>
+                                <option value="SKIPPED">跳过</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">手感</label>
+                            <select class="form-select" id="attempt-mood">
+                                <option value="SMOOTH">顺利</option>
+                                <option value="NORMAL" selected>一般</option>
+                                <option value="STUCK">卡顿</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">耗时(分钟)</label>
+                            <input type="number" class="form-control" id="attempt-duration" min="0">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">使用的解法</label>
+                            <select class="form-select" id="attempt-solution"><option value="">（可选）</option></select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">备注 / 心得</label>
+                            <textarea class="form-control" id="attempt-notes" rows="4"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button class="btn btn-primary" id="btn-save-attempt">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 解法 Modal -->
+<div class="modal fade" id="solutionModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title" id="solution-modal-title">添加解法</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+            <div class="modal-body">
+                <form id="solution-form">
+                    <input type="hidden" id="solution-id">
+                    <input type="hidden" id="solution-problem-id">
+                    <div class="mb-2">
+                        <label class="form-label">解法名称</label>
+                        <input class="form-control" id="solution-name" list="solution-name-list" placeholder="如：哈希表 / 双指针 / 动态规划" required>
+                        <datalist id="solution-name-list">
+                            <option value="哈希表"></option>
+                            <option value="双指针"></option>
+                            <option value="滑动窗口"></option>
+                            <option value="二分查找"></option>
+                            <option value="动态规划"></option>
+                            <option value="回溯"></option>
+                            <option value="DFS"></option>
+                            <option value="BFS"></option>
+                            <option value="单调栈"></option>
+                            <option value="贪心"></option>
+                            <option value="并查集"></option>
+                            <option value="Trie"></option>
+                        </datalist>
+                    </div>
+                    <div class="row g-2 mb-2">
+                        <div class="col-md-6">
+                            <label class="form-label">时间复杂度</label>
+                            <div class="complexity-chips" data-target="solution-time"></div>
+                            <input class="form-control" id="solution-time" list="complexity-list" placeholder="O(n)">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">空间复杂度</label>
+                            <div class="complexity-chips" data-target="solution-space"></div>
+                            <input class="form-control" id="solution-space" list="complexity-list" placeholder="O(1)">
+                        </div>
+                    </div>
+                    <datalist id="complexity-list">
+                        <option value="O(1)"></option>
+                        <option value="O(log n)"></option>
+                        <option value="O(log k)"></option>
+                        <option value="O(√n)"></option>
+                        <option value="O(sqrt(n))"></option>
+                        <option value="O(n)"></option>
+                        <option value="O(k)"></option>
+                        <option value="O(n log n)"></option>
+                        <option value="O(k log k)"></option>
+                        <option value="O(n log k)"></option>
+                        <option value="O(n + k)"></option>
+                        <option value="O(nk)"></option>
+                        <option value="O(k²)"></option>
+                        <option value="O(n²)"></option>
+                        <option value="O(n³)"></option>
+                        <option value="O(2^n)"></option>
+                        <option value="O(mn)"></option>
+                        <option value="O(m+n)"></option>
+                    </datalist>
+                    <div class="mb-2">
+                        <label class="form-label">思路说明</label>
+                        <textarea class="form-control" id="solution-approach" rows="4"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">代码片段</label>
+                        <textarea class="form-control font-monospace" id="solution-code" rows="22"></textarea>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="solution-primary">
+                        <label class="form-check-label">设为主解法</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button class="btn btn-primary" id="btn-save-solution">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 新增题目 Modal -->
+<div class="modal fade" id="problemModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">新增题目</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="problem-form">
+                    <div class="mb-2">
+                        <label class="form-label">LeetCode 题号</label>
+                        <input type="number" class="form-control" id="problem-leetcode-id" min="1" required placeholder="如：1143">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">题目标题</label>
+                        <input type="text" class="form-control" id="problem-title" required placeholder="如：最长公共子序列">
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">题目链接 <span class="text-muted small">（可选）</span></label>
+                        <input type="url" class="form-control" id="problem-url" placeholder="https://leetcode.cn/problems/...">
+                    </div>
+                    <div class="row g-2 mb-2">
+                        <div class="col-6">
+                            <label class="form-label">官方难度</label>
+                            <select class="form-select" id="problem-difficulty">
+                                <option value="EASY">简单</option>
+                                <option value="MEDIUM" selected>中等</option>
+                                <option value="HARD">困难</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label">分类</label>
+                            <input type="text" class="form-control" id="problem-category" list="category-suggestions" required placeholder="如：其他">
+                            <datalist id="category-suggestions"></datalist>
+                        </div>
+                    </div>
+                    <p class="text-muted small mb-0">用于添加 Hot100 以外的题目，题号不可与已有题目重复。</p>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                <button class="btn btn-accent" id="btn-save-problem">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/app.js?v=20260727a"></script>
+</body>
+</html>
