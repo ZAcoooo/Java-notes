@@ -26,18 +26,20 @@ public class ReviewDashboardService {
         this.attemptRepository = attemptRepository;
     }
 
-    /** 待复习：次数少优先，其次最久未刷；今天已刷过的排除，取前 3 题滚动补位 */
+    /** 待复习：次数少优先，其次最久未刷；近 7 天内刷过的排除，取前 3 题滚动补位 */
     public List<DailyReviewItem> getPendingReview(LocalDate today) {
+        LocalDate recentCutoff = today.minusDays(7);
         return problemRepository.findAll().stream()
                 .map(p -> {
                     var attempts = attemptRepository.findByProblemIdOrderByAttemptDateDescIdDesc(p.getId());
                     if (attempts.isEmpty()) {
                         return null;
                     }
-                    if (attempts.stream().anyMatch(a -> a.getAttemptDate().equals(today))) {
+                    LocalDate lastDate = attempts.get(0).getAttemptDate();
+                    // 近 7 天内刷过（含今天）不进入待复习
+                    if (!lastDate.isBefore(recentCutoff)) {
                         return null;
                     }
-                    LocalDate lastDate = attempts.get(0).getAttemptDate();
                     return new PendingCandidate(p, lastDate, attempts.size());
                 })
                 .filter(c -> c != null)

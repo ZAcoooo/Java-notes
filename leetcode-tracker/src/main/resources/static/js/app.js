@@ -319,7 +319,7 @@ function renderPendingReview(items) {
     if (!listEl || !descEl) return;
 
     if (!items.length) {
-        descEl.textContent = '暂无待复习题目，今天刷过的题会自动移出列表';
+        descEl.textContent = '暂无待复习题目，近 7 天内刷过的题不会出现在列表';
         listEl.innerHTML = '<p class="text-muted mb-0">去「题目列表」刷几道题，或今天已复习完毕 🎉</p>';
         return;
     }
