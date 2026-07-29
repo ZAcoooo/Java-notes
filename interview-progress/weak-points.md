@@ -165,3 +165,13 @@
 1. 先补 🔴 三个：泛型擦除、不可变类、编译期/运行时
 2. 每个薄弱点按「定义 + 原理 + 例子 + 易错点」四件套整理
 3. 被追问过「不会」的题，24 小时内重做一遍
+
+### 17. JNI 代价与好处细节（Q77 30/40，主干已掌握，细节待补）
+- **来源**：Q77 native/JNI；用户答 30/40（良好），主干全对但有细节缺口
+- **要记住**：
+  - 完整调用流程不能漏 **System.loadLibrary("xxx")**：JVM 把 .so/.dll 加载进进程，并把 native 方法绑定到 C 函数地址；之前还需把 .c 编译成平台动态库（Linux .so / Windows .dll / macOS .dylib）
+  - 代价补全：① 跨 JNI 边界有**类型转换/marshalling 开销**，且 **JIT 无法跨越边界做内联优化**（别用它包超小热路径）；② **native 内存手动管理**——jstring/jobject 用完要 ReleaseStringUTFChars/DeleteLocalRef，引用分 Local/Global，否则泄漏甚至 OOM；③ native 代码崩了 = 整个 JVM 崩（无异常保护）
+  - 好处补全：复用已有 C/C++ 库（OpenCV、加密、音视频编解码）、性能极致敏感底层、访问 Java 标准库没暴露的系统/硬件能力
+  - JNIEnv*：C 函数里 JVM 传入的指针，用来操作 Java 对象/字段/方法、做类型转换
+- **复考聚焦**：只考「loadLibrary 这一步 + 代价/好处完整清单」，不必重考主干
+- **Q77 表现**：native 无方法体 ✅、生成 .h ✅、写 .c ✅、JNI 双向桥（含回调 JVM）✅、拖垮 JVM + 底层用 C ✅；缺口如上 3 点
