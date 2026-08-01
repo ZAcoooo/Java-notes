@@ -139,9 +139,17 @@
 - Java 8 default/static 已能说出 ✅
 - 可再补：多实现、抽象类可有构造与实例变量、Java9 private 方法
 - **结论**：降为低优先级
-### 8. 异常体系
-- 知道 Error/Exception，但受检/非受检划分依据说不清
-- 受检异常也是运行时抛出，不是「编译时异常」
+### 8. 异常体系（Q8 24 → **Q83 复考 20/40，关键点仍混**）
+- **问题**：把受检异常理解成「编译期异常、会导致无法启动」
+- **要记住**：
+  - `Throwable` → `Error` / `Exception`
+  - **受检异常**：继承 Exception 但不是 RuntimeException；**运行时抛出**，但**编译期强制处理**
+  - **非受检**：RuntimeException 及子类、Error；编译器不强制处理
+  - Error = 严重错误（OOM 等），一般不捕获；≠「程序无法启动」
+- **标准三句话（二刷背这个）**：
+  1. 异常根是 Throwable，下面 Error 和 Exception
+  2. 受检异常也是运行时抛的，只是编译器逼你处理
+  3. RuntimeException/Error 是非受检，编译器不管
 
 ## 🟢 已掌握（可少花时间）
 
