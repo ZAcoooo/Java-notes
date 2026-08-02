@@ -207,4 +207,4 @@ BigDecimal、抽象类vs接口、静态变量存哪、反射缺点、异常体�
 
 ## 下一题
 
-→ **Q88 二刷：new String 几个对象**（见 INDEX.md）
+→ **Q89：内部类区别复考**（见 INDEX.md）
