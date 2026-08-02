@@ -207,4 +207,4 @@ BigDecimal、抽象类vs接口、静态变量存哪、反射缺点、异常体�
 
 ## 下一题
 
-→ **Q86 二刷：Stream forEach/懒执行**（见 INDEX.md）
+→ **Q87：反射缺点复考**（见 INDEX.md）
