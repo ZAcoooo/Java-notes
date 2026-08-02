@@ -122,12 +122,10 @@
 
 ## 🟡 中优先级（知道但不严谨）
 
-### 4. String 不可变（Q1 22 → **Q84 复考 25/40，仍偏「怎么实现」缺「为什么」**）
-- **Q84 表现**：能说 final 类、无 setter、常量池复用 ✅；漏安全、hash 缓存；仍易把 final 类当不可变全部原因
-- **要记住（二刷）**：
-  - **怎么做到**：final 类 + private final 数组 + 无 setter
-  - **为什么这样设计**：① 常量池可安全共享 ② 作为 HashMap key 时 hash 可缓存 ③ 安全（类加载、网络连接等参数不被篡改）
-  - final ≠ 不可变，要分开讲
+### 4. String 不可变（Q1 22 → Q84 25 → **二刷 33/40 已掌握 ✅**）
+- **二刷**：怎么做到（final 类、private final、无 setter）+ 为什么（池安全、路径安全、HashMap key）基本齐全 ✅
+- **小口误**：private final ≠ 不可继承；HashMap 侧重点是 hash 可缓存
+- **结论**：出池
 
 ### 5. equals 与 hashCode
 - 知道要一起重写，但说过「hashCode 返回 true」（应为 int，且是「相等」）
