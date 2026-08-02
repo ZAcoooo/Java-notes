@@ -207,4 +207,4 @@ BigDecimal、抽象类vs接口、静态变量存哪、反射缺点、异常体�
 
 ## 下一题
 
-→ **Q88：字符串常量池复考**（见 INDEX.md）
+→ **Q88 二刷：new String 几个对象**（见 INDEX.md）
