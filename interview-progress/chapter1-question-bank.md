@@ -207,4 +207,4 @@ BigDecimal、抽象类vs接口、静态变量存哪、反射缺点、异常体�
 
 ## 下一题
 
-→ **Q84：String 不可变复考**（见 INDEX.md）
+→ **Q84 二刷：String 不可变**（见 INDEX.md）
